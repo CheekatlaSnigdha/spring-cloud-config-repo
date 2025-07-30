@@ -1,0 +1,33 @@
+server:
+  port: 8084
+  
+
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: gateway, routes
+
+spring:
+  cloud:
+    gateway:
+      server:
+        webflux:
+          routes:
+            - id: ProductInf
+              uri: http://localhost:8080
+              predicates:
+                - Path=/products/**
+            - id: FeignDemo
+              uri: http://localhost:8081
+              predicates:
+                - Path=/feignclient/**
+
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+  instance:
+    hostname: localhost
